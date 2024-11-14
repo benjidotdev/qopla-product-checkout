@@ -31,7 +31,7 @@ const useProduct = ({ id }: UseProductOptions): UseProductResponse => {
         if (error instanceof Error) {
           setError(error.message);
         } else {
-          setError("Unknown error");
+          setError("Unknown error-indicator");
         }
       } finally {
         setLoading(false);
