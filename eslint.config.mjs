@@ -7,9 +7,12 @@ import pluginPrettier from "eslint-plugin-prettier";
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-    ignores: ["node_modules/"],
-    languageOptions: { globals: globals.browser },
+    files: ["./src/**/*.{js,mjs,cjs,ts,jsx,tsx}"],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+    },
     plugins: {
       prettier: pluginPrettier,
     },
@@ -22,7 +25,22 @@ export default [
       },
     },
   },
+  {
+    files: ["tailwind.config.js"],
+    languageOptions: {
+      globals: {
+        module: true,
+      },
+    },
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
+  {
+    ...pluginReact.configs.flat.recommended,
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
+  },
 ];
