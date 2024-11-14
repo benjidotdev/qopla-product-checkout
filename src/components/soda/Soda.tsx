@@ -5,6 +5,7 @@ import ErrorIndicator from "../indicators/error-indicator/ErrorIndicator";
 import ProgressBar from "./progress-bar/ProgressBar";
 import ProductStep from "./steps/product-step/ProductStep";
 import { Flavour, Size } from "../../types/products";
+import ProgressButtons from "./progress-buttons/ProgressButtons";
 
 const Soda = () => {
   const { product, additionalData, loading, error } = useProduct({ id: "a_very_unique_soda_id" });
@@ -72,14 +73,19 @@ const Soda = () => {
   if (error) return <ErrorIndicator error={error} />;
 
   return (
-    <div className="bg-white w-full max-w-4xl rounded-xl shadow-2xl p-6">
+    <div className="flex flex-col bg-white w-full max-w-4xl rounded-xl shadow-2xl p-6 gap-6">
       <ProgressBar currentStep={currentStep} />
       <div className="flex">
         <div className="w-3/4">{getCurrentStepComponent()}</div>
-        <div className="w-1/4">
-          {selectedSize.name} {selectedFlavor.name} - {totalPrice}
-        </div>
+        <div className="w-1/4">{selectedSize.name} {selectedFlavor.name} - {totalPrice}</div>
       </div>
+      <ProgressButtons
+        currentStep={currentStep}
+        setCurrentStep={setCurrentStep}
+        totalSteps={3}
+        disableNext={false}
+        handleSubmit={() => {}}
+      />
     </div>
   );
 };
