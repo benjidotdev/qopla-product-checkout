@@ -18,8 +18,6 @@ const Product = () => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const basePriceRef = useRef<number>(0);
 
-  console.log("addons", selectedAddOns);
-
   // Sets defaults
   useEffect(() => {
     if (product) {
@@ -40,6 +38,26 @@ const Product = () => {
       setTotalPrice(basePriceRef.current + sizeAddonPrice + assortedAddOnPrice);
     }
   }, [product, selectedSize, selectedAddOns]);
+
+  const handleSubmit = () => {
+    const order = {
+      size: selectedSize.name,
+      flavor: selectedFlavour.name,
+      addOns: selectedAddOns,
+      totalPrice,
+    };
+    alert(
+      `Order Summary:\n\n` +
+      `Size: ${order.size}\n` +
+      `Flavor: ${order.flavor}\n` +
+      `Add-ons:\n` +
+      `  ${order.addOns.map(group => {
+        return `${group.groupTitle}:\n` +
+          `    ${group.addons.map(addon => `- ${addon.name}`).join('\n    ')}`
+      }).join('\n  ')}\n` +
+      `Total Price: ${order.totalPrice.toFixed(2)} SEK`
+    );
+  };
 
   const getCurrentStepComponent = () => {
     switch (currentStep) {
@@ -99,8 +117,7 @@ const Product = () => {
         setCurrentStep={setCurrentStep}
         totalSteps={3}
         disableNext={false}
-        handleSubmit={() => {
-        }}
+        handleSubmit={() => handleSubmit()}
       />
     </div>
   );
