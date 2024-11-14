@@ -12,7 +12,7 @@ const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice }:
   return (
     <div className="flex flex-col w-full">
       <div>
-        {selectedSize.name} {selectedFlavour.name} - {totalPrice}
+        {selectedSize.name} {selectedFlavour.name}
       </div>
       <div>
         {selectedAddOns.map((group, index) => {
@@ -28,6 +28,7 @@ const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice }:
           );
         })}
       </div>
+      <div>{totalPrice}</div>
     </div>
   );
 };

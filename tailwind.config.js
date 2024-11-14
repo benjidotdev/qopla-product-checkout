@@ -7,6 +7,9 @@ module.exports = {
         "qopla-green": "#084625",
         "qopla-gold": "#fcdfb2",
       },
+      backgroundImage: {
+        'bg-image': "url('./assets/background/bg-image.svg')",
+      },
     },
   },
   plugins: [],
