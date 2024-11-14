@@ -1,21 +1,85 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useProduct from "../../hooks/useProduct";
 import LoadingIndicator from "../indicators/loading-indicator/LoadingIndicator";
 import ErrorIndicator from "../indicators/error-indicator/ErrorIndicator";
 import ProgressBar from "./progress-bar/ProgressBar";
+import ProductStep from "./steps/product-step/ProductStep";
+import { Flavour, Size } from "../../types/products";
 
 const Soda = () => {
   const { product, additionalData, loading, error } = useProduct({ id: "a_very_unique_soda_id" });
-  const [step, setStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [selectedSize, setSelectedSize] = useState<Size>({ name: "", addonPrice: 0 });
+  const [selectedFlavor, setSelectedFlavor] = useState<Flavour>({ name: "", addonPrice: 0 });
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const basePriceRef = useRef<number>(0);
 
-  console.log({ product, additionalData, loading, error });
+  // Sets defaults
+  useEffect(() => {
+    if (product) {
+      basePriceRef.current = product.price;
+      setSelectedSize(product.modifications.sizes[0]);
+      setSelectedFlavor(product.modifications.flavours[0]);
+      setTotalPrice(product.price);
+    }
+  }, [product]);
+
+  // Updates total price
+  useEffect(() => {
+    if (product) {
+      const sizeAddonPrice = product.modifications.sizes.find(size => size.name === selectedSize.name)?.addonPrice || 0;
+      setTotalPrice(basePriceRef.current + sizeAddonPrice);
+    }
+  }, [selectedSize, product]);
+
+  const getCurrentStepComponent = () => {
+    if (!product) return null;
+    switch (currentStep) {
+      case 1:
+        return (
+          <ProductStep
+            product={product}
+            selectedSize={selectedSize}
+            setSelectedSize={setSelectedSize}
+            selectedFlavor={selectedFlavor}
+            setSelectedFlavor={setSelectedFlavor}
+          />
+        );
+      case 2:
+        return (
+          <ProductStep
+            product={product}
+            selectedSize={selectedSize}
+            setSelectedSize={setSelectedSize}
+            selectedFlavor={selectedFlavor}
+            setSelectedFlavor={setSelectedFlavor}
+          />
+        );
+      case 3:
+        return (
+          <ProductStep
+            product={product}
+            selectedSize={selectedSize}
+            setSelectedSize={setSelectedSize}
+            selectedFlavor={selectedFlavor}
+            setSelectedFlavor={setSelectedFlavor}
+          />
+        );
+    }
+  };
 
   if (loading) return <LoadingIndicator />;
   if (error) return <ErrorIndicator error={error} />;
 
   return (
     <div className="bg-white w-full max-w-4xl rounded-xl shadow-2xl p-6">
-      <ProgressBar currentStep={step} />
+      <ProgressBar currentStep={currentStep} />
+      <div className="flex">
+        <div className="w-3/4">{getCurrentStepComponent()}</div>
+        <div className="w-1/4">
+          {selectedSize.name} {selectedFlavor.name} - {totalPrice}
+        </div>
+      </div>
     </div>
   );
 };

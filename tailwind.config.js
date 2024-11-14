@@ -5,8 +5,8 @@ module.exports = {
     extend: {
       colors: {
         "qopla-green": "#084625",
-        "qopla-gold": "#fcdfb2"
-      }
+        "qopla-gold": "#fcdfb2",
+      },
     },
   },
   plugins: [],

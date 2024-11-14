@@ -1,10 +1,20 @@
+export interface Size {
+  name: string;
+  addonPrice: number;
+}
+
+export interface Flavour {
+  name: string;
+  addonPrice: number;
+}
+
 export interface Product {
   id: string;
   name: string;
   price: number;
   modifications: {
-    sizes: { name: string; addonPrice: number }[];
-    flavours: { name: string; addonPrice: number }[];
+    sizes: Size[];
+    flavours: Flavour[];
   };
 }
 
