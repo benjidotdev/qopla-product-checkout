@@ -39,6 +39,24 @@ export const mockProductData = {
         },
       ],
     },
+    /*{
+      name: "Extra shots",
+      limit: 2,
+      sortOrder: 2,
+      refProductIds: ["a_very_unique_soda_id"],
+      addons: [
+        {
+          addon: { name: "Caramel", price: 5 },
+          limit: 2,
+          sortOrder: 0,
+        },
+        {
+          addon: { name: "Whiskey", price: 5 },
+          limit: 1,
+          sortOrder: 1,
+        },
+      ],
+    },*/
     {
       name: "To remove",
       limit: 1,

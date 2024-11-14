@@ -38,7 +38,12 @@ const ProductStep = ({
               }`}
             >
               <p className="font-medium">{size.name}</p>
-              {size.addonPrice > 0 && <p className="text-sm text-gray-600">+${size.addonPrice}</p>}
+              {size.addonPrice !== 0 && (
+                <p className="text-sm text-gray-600">
+                  {size.addonPrice > 0 && "+"}
+                  {size.addonPrice} SEK
+                </p>
+              )}
             </button>
           ))}
         </div>

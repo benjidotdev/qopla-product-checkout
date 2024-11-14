@@ -8,18 +8,24 @@ interface ProgressButtonsProps {
   handleSubmit: () => void;
 }
 
-const ProgressButtons = ({ currentStep, setCurrentStep, totalSteps, disableNext, handleSubmit }: ProgressButtonsProps) => {
+const ProgressButtons = ({
+  currentStep,
+  setCurrentStep,
+  totalSteps,
+  disableNext,
+  handleSubmit,
+}: ProgressButtonsProps) => {
   const handleNextStep = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     } else {
       handleSubmit();
     }
-  }
+  };
 
   const handleBackStep = () => {
     setCurrentStep(currentStep - 1);
-  }
+  };
 
   return (
     <div className="flex gap-6">
@@ -40,6 +46,6 @@ const ProgressButtons = ({ currentStep, setCurrentStep, totalSteps, disableNext,
       </button>
     </div>
   );
-}
+};
 
 export default ProgressButtons;

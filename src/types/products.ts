@@ -18,14 +18,26 @@ export interface Product {
   };
 }
 
+export interface AddOnDetails {
+  name: string;
+  price: number;
+}
+
+export interface AddOn {
+  addon: AddOnDetails;
+  limit: number;
+  sortOrder: number;
+}
+
 export interface AdditionalData {
   name: string;
   limit: number;
   sortOrder: number;
   refProductIds: string[];
-  addons: {
-    addon: { name: string; price: number };
-    limit: number;
-    sortOrder: number;
-  }[];
+  addons: AddOn[];
+}
+
+export interface SelectedAddOnGroup {
+  groupTitle: string;
+  addons: AddOnDetails[];
 }
