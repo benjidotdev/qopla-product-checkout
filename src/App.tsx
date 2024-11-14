@@ -1,10 +1,9 @@
 import React from "react";
-import "./App.css";
 import Soda from "./components/soda/Soda";
 
 function App() {
   return (
-    <div className="App">
+    <div className="min-h-screen bg-qopla-green flex items-center justify-center">
       <Soda />
     </div>
   );

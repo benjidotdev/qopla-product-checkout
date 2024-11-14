@@ -2,7 +2,12 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "qopla-green": "#084625",
+        "qopla-gold": "#fcdfb2"
+      }
+    },
   },
   plugins: [],
 };
