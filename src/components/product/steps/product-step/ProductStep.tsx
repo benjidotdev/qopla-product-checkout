@@ -1,6 +1,7 @@
 import React from "react";
 import { Product, Size, Flavour } from "../../../../types/products";
 import clsx from "clsx";
+import { CURRENCY_CODE } from "../../../../constants";
 
 interface ProductStepProps {
   product: Product;
@@ -54,7 +55,7 @@ const ProductStep = ({
               {size.addonPrice !== 0 && (
                 <p className={clsx("text-xs", selectedSize === size ? "text-qopla-gold" : "text-gray-600")}>
                   {size.addonPrice > 0 && "+"}
-                  {size.addonPrice} SEK
+                  {size.addonPrice} {CURRENCY_CODE}
                 </p>
               )}
             </button>
@@ -64,8 +65,7 @@ const ProductStep = ({
           <p className="text-sm text-gray-600 mt-4">
             <span>Upsell:&nbsp;</span>
             <span className="italic">
-              Would you like to make that a {nextSize.name} for only {nextSize.addonPrice - selectedSize.addonPrice} SEK
-              more?
+              Would you like to make that a {nextSize.name} for only {nextSize.addonPrice - selectedSize.addonPrice} {CURRENCY_CODE} more?
             </span>
           </p>
         )}

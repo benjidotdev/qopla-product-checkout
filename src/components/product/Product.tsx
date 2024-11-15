@@ -8,6 +8,8 @@ import AddOnStep from "./steps/add-on-step/AddOnStep";
 import ProgressButtons from "./progress-buttons/ProgressButtons";
 import { Flavour, Size, SelectedAddOnGroup } from "../../types/products";
 import Overview from "./overview/Overview";
+import { CURRENCY_CODE } from "../../constants";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Product = () => {
   const { product, additionalData, loading, error } = useProduct({ id: "a_very_unique_soda_id" });
@@ -49,7 +51,6 @@ const Product = () => {
       totalPrice,
     };
     alert(
-      `Order Summary:\n\n` +
         `Size: ${order.size}\n` +
         `Flavor: ${order.flavor}\n` +
         (order.addOns.length > 0
@@ -60,7 +61,7 @@ const Product = () => {
               })
               .join("\n  ")}\n`
           : "") +
-        `Total Price: ${order.totalPrice.toFixed(2)} SEK`,
+        `Total Price: ${order.totalPrice.toFixed(2)} ${CURRENCY_CODE}`,
     );
   };
 
@@ -88,15 +89,6 @@ const Product = () => {
             />
           )
         );
-      case 3:
-        return (
-          <Overview
-            selectedSize={selectedSize}
-            selectedFlavour={selectedFlavour}
-            selectedAddOns={selectedAddOns}
-            totalPrice={totalPrice}
-          />
-        );
     }
   };
 
@@ -107,22 +99,40 @@ const Product = () => {
     <div className="flex flex-col bg-white w-full max-w-4xl h-full max-h-[80%] rounded-xl shadow-2xl p-6 my-12 gap-6">
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       <div className="flex-1 flex gap-6 overflow-y-scroll">
-        {currentStep !== totalSteps && <div className="w-2/3">{getCurrentStepComponent()}</div>}
-        <div className="sticky top-0 w-1/3">
+        <AnimatePresence mode="wait">
+          {currentStep !== totalSteps && (
+            <motion.div
+              initial={{ width: "66.6667%", opacity: 1 }}
+              animate={{ width: "66.6667%", opacity: 1 }}
+              exit={{ width: 0, opacity: 0 }}
+              transition={{
+                width: { duration: 0.5, ease: "easeInOut" },
+                opacity: { duration: 0.3, ease: "easeInOut" },
+              }}
+            >
+              {getCurrentStepComponent()}
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <motion.div
+          className="sticky top-0"
+          initial={{ width: currentStep === totalSteps ? "100%" : "33.3333%" }}
+          animate={{ width: currentStep === totalSteps ? "100%" : "33.3333%" }}
+          transition={{ duration: 0.5, ease: "easeIn" }}>
           <Overview
             selectedSize={selectedSize}
             selectedFlavour={selectedFlavour}
             selectedAddOns={selectedAddOns}
             totalPrice={totalPrice}
           />
-        </div>
+        </motion.div>
       </div>
       <ProgressButtons
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
         totalSteps={totalSteps}
         disableNext={false}
-        handleSubmit={() => handleSubmit()}
+        handleSubmit={handleSubmit}
       />
     </div>
   );

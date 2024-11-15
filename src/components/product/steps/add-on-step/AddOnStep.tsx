@@ -1,6 +1,7 @@
 import React from "react";
 import { AdditionalData, SelectedAddOnGroup } from "../../../../types/products";
 import clsx from "clsx";
+import { CURRENCY_CODE } from "../../../../constants";
 
 interface AddOnProps {
   additionalData: AdditionalData[];
@@ -173,7 +174,7 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
                               )}
                             >
                               {addon.addon.price > 0 && "+"}
-                              {addon.addon.price} SEK
+                              {addon.addon.price} {CURRENCY_CODE}
                             </span>
                           )}
                         </button>
@@ -186,7 +187,7 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
                         >
                           <div>
                             <span className="font-bold">{addon.addon.name}</span>
-                            <span className="ml-4 text-xs">{addon.addon.price > 0 && `+ ${addon.addon.price} SEK`}</span>
+                            <span className="ml-4 text-xs">{addon.addon.price > 0 && `+ ${addon.addon.price} ${CURRENCY_CODE}`}</span>
                           </div>
                           <div className="flex items-center">
                           <button
@@ -198,7 +199,7 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
                             >
                               -
                             </button>
-                            <div className="flex items-center text-sm mx-2">
+                            <div className="flex items-center justify-center text-sm mx-2 w-6">
                               <p>{count}</p>
                               <span>/{addon.limit}</span>
                             </div>

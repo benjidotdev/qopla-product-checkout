@@ -1,5 +1,6 @@
 import React from "react";
 import { Flavour, SelectedAddOnGroup, Size } from "../../../types/products";
+import { CURRENCY_CODE } from "../../../constants";
 
 interface OverviewProps {
   selectedSize: Size;
@@ -10,7 +11,7 @@ interface OverviewProps {
 
 const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice }: OverviewProps) => {
   return (
-    <div className="flex flex-col w-full h-full px-6 bg-white border-l border-gray-200">
+    <div className="flex flex-col h-full w-full px-6 border-l border-gray-200">
       <div className="flex flex-col mb-2">
         <span className="text-sm font-light">Size:</span>
         <span className="text-lg font-bold">{selectedSize.name}</span>
@@ -45,7 +46,7 @@ const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice }:
       </div>
       <div className="flex flex-col mb-2">
         <span className="text-sm font-light">Total Price:</span>
-        <span className="text-lg font-bold">{totalPrice.toFixed(2)} SEK</span>
+        <span className="text-lg font-bold">{totalPrice.toFixed(2)} {CURRENCY_CODE}</span>
       </div>
     </div>
   );
