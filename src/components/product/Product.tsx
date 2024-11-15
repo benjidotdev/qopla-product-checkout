@@ -52,11 +52,13 @@ const Product = () => {
       `Order Summary:\n\n` +
       `Size: ${order.size}\n` +
       `Flavor: ${order.flavor}\n` +
-      `Add-ons:\n` +
-      `  ${order.addOns.map(group => {
-        return `${group.groupTitle}:\n` +
-          `    ${group.addons.map(addon => `- ${addon.name}`).join('\n    ')}`
-      }).join('\n  ')}\n` +
+      (order.addOns.length > 0 ? (
+        `Add-ons:\n` +
+        `  ${order.addOns.map(group => {
+          return `${group.groupTitle}:\n` +
+            `    ${group.addons.map(addon => `- ${addon.name}`).join('\n    ')}`
+        }).join('\n  ')}\n`
+      ) : '') +
       `Total Price: ${order.totalPrice.toFixed(2)} SEK`
     );
   };
