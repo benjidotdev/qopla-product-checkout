@@ -19,8 +19,6 @@ const Product = () => {
   const [totalSteps, setTotalSteps] = useState<number>(0);
   const basePriceRef = useRef<number>(0);
 
-  console.log(totalSteps);
-
   // Sets defaults
   useEffect(() => {
     if (product) {
@@ -109,9 +107,9 @@ const Product = () => {
         totalSteps={totalSteps}
       />
       <div className="flex-1 flex gap-6 overflow-y-scroll">
-        {currentStep !== totalSteps && <div className="w-3/4">{getCurrentStepComponent()}</div>}
-        <div className="sticky top-0 w-1/4">
-        <Overview
+        {currentStep !== totalSteps && <div className="w-2/3">{getCurrentStepComponent()}</div>}
+        <div className="sticky top-0 w-1/3">
+          <Overview
             selectedSize={selectedSize}
             selectedFlavour={selectedFlavour}
             selectedAddOns={selectedAddOns}

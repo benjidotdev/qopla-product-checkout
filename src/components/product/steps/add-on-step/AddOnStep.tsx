@@ -14,7 +14,6 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
     <div className="space-y-6">
       {sortedAdditionalData.map((group, index) => {
         const groupKey = `group-${group.name.toLowerCase().replace(/\s+/g, "-")}-${index}`;
-        console.log(groupKey);
         return (
           <div key={groupKey} className="space-y-4">
             <h2 className="text-xl font-semibold">{group.name}</h2>
@@ -26,7 +25,6 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
                 .sort((a, b) => a.sortOrder - b.sortOrder)
                 .map((addon, index) => {
                   const addonKey = `addon-${group.name.toLowerCase().replace(/\s+/g, "-")}-${addon.addon.name.toLowerCase().replace(/\s+/g, "-")}-${index}`;
-                  console.log(addonKey);
                   const count = selectedAddOns.reduce((acc, selectedGroup) => {
                     if (selectedGroup.groupTitle === group.name) {
                       return (

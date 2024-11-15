@@ -38,7 +38,7 @@ const ProgressButtons = ({
         </button>
       )}
       <button
-        className={`w-full bg-qopla-green hover:bg-qopla-green-dark text-qopla-gold font-bold py-3 px-4 rounded`}
+        className={`w-full bg-qopla-green hover:bg-qopla-green-dark text-qopla-gold border-qopla-gold font-bold py-3 px-4 rounded`}
         onClick={() => handleNextStep()}
         disabled={disableNext}
       >

@@ -10,25 +10,40 @@ interface OverviewProps {
 
 const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice }: OverviewProps) => {
   return (
-    <div className="flex flex-col w-full">
-      <div>
-        {selectedSize.name} {selectedFlavour.name}
+    <div className="flex flex-col w-full h-full px-6 bg-white border-l border-gray-200">
+      <h2 className="text-2xl font-bold mb-4">Product Summary</h2>
+      <div className="flex flex-col mb-2">
+        <span className="text-sm font-medium">Size:</span>
+        <span className="text-lg font-bold">{selectedSize.name}</span>
       </div>
-      <div>
-        {selectedAddOns.map((group, index) => {
-          console.log(group);
-          return (
-            <div key={index}>
-              {group.addons.map((addon, addonIndex) => (
-                <div key={addonIndex}>
-                  {addon.name}
-                </div>
-              ))}
-            </div>
-          );
-        })}
+      <div className="flex flex-col mb-2">
+        <span className="text-sm font-medium">Flavour:</span>
+        <span className="text-lg font-bold">{selectedFlavour.name}</span>
       </div>
-      <div>{totalPrice}</div>
+      <div className="mb-6 flex-1">
+        <ul>
+          {selectedAddOns.map((group, index) => (
+            <React.Fragment key={index}>
+              {group.addons.length > 0 && (
+                <li className="flex flex-col mb-2" >
+                  <span className="text-sm font-medium">{group.groupTitle}:</span>
+                  <ul>
+                    {group.addons.map((addon, addonIndex) => (
+                      <li className="text-lg font-bold" key={addonIndex}>
+                        {group.groupTitle === "To remove" ? `- ${addon.name}` : group.groupTitle === "Extra toppings" ? `+ ${addon.name}` : addon.name}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              )}
+            </React.Fragment>
+          ))}
+        </ul>
+      </div>
+      <div className="flex flex-col mb-2">
+        <span className="text-sm font-medium">Total Price:</span>
+        <span className="text-lg font-bold">{totalPrice.toFixed(2)} SEK</span>
+      </div>
     </div>
   );
 };
