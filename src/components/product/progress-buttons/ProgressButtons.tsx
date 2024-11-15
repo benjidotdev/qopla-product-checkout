@@ -31,14 +31,14 @@ const ProgressButtons = ({
     <div className="flex gap-6">
       {currentStep > 1 && (
         <button
-          className="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+          className="w-full  hover:bg-gray-100 border font-bold py-3 px-4 rounded"
           onClick={() => handleBackStep()}
         >
           Back
         </button>
       )}
       <button
-        className={`w-full ${currentStep < totalSteps ? "bg-qopla-green hover:bg-qopla-green-dark" : "bg-qopla-green"} text-white font-bold py-2 px-4 rounded`}
+        className={`w-full bg-qopla-green hover:bg-qopla-green-dark text-qopla-gold font-bold py-3 px-4 rounded`}
         onClick={() => handleNextStep()}
         disabled={disableNext}
       >

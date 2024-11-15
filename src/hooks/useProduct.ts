@@ -25,13 +25,13 @@ const useProduct = ({ id }: UseProductOptions): UseProductResponse => {
       setError(null);
       try {
         const response = await getProduct(id);
-        setProduct(response.product);
-        setAdditionalData(response.additionalData);
+        setProduct(response.product ?? null);
+        setAdditionalData(response.additionalData ?? null);
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);
         } else {
-          setError("Unknown error-indicator");
+          setError("Unknown Error");
         }
       } finally {
         setLoading(false);

@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         "qopla-green": "#084625",
+        "qopla-green-dark": "#05351b",
         "qopla-gold": "#fcdfb2",
       },
       backgroundImage: {

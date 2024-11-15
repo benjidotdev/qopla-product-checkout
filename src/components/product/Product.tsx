@@ -16,7 +16,10 @@ const Product = () => {
   const [selectedFlavour, setSelectedFlavour] = useState<Flavour>({ name: "", addonPrice: 0 });
   const [selectedAddOns, setSelectedAddOns] = useState<SelectedAddOnGroup[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [totalSteps, setTotalSteps] = useState<number>(0);
   const basePriceRef = useRef<number>(0);
+
+  console.log(totalSteps);
 
   // Sets defaults
   useEffect(() => {
@@ -25,6 +28,7 @@ const Product = () => {
       setSelectedSize(product.modifications.sizes[0]);
       setSelectedFlavour(product.modifications.flavours[0]);
       setTotalPrice(product.price);
+      setTotalSteps(additionalData ? 3 : 2);
     }
   }, [product]);
 
@@ -100,9 +104,12 @@ const Product = () => {
 
   return (
     <div className="flex flex-col bg-white w-full max-w-4xl h-full max-h-[80%] rounded-xl shadow-2xl p-6 my-12 gap-6">
-      <ProgressBar currentStep={currentStep} />
+      <ProgressBar
+        currentStep={currentStep}
+        totalSteps={totalSteps}
+      />
       <div className="flex-1 flex gap-6 overflow-y-scroll">
-        {currentStep !== 3 && <div className="w-3/4">{getCurrentStepComponent()}</div>}
+        {currentStep !== totalSteps && <div className="w-3/4">{getCurrentStepComponent()}</div>}
         <div className="sticky top-0 w-1/4">
         <Overview
             selectedSize={selectedSize}
@@ -115,7 +122,7 @@ const Product = () => {
       <ProgressButtons
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
-        totalSteps={3}
+        totalSteps={totalSteps}
         disableNext={false}
         handleSubmit={() => handleSubmit()}
       />

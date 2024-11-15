@@ -28,14 +28,21 @@ const ProductStep = ({
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-semibold mb-4">Choose your size</h2>
-        <div className="grid grid-cols-2 gap-4">
-          {product.modifications.sizes.map((size: Size) => (
+        <div
+          className={`grid grid-rows-1 gap-4`}
+          style={{
+            gridTemplateColumns: `repeat(${product.modifications.sizes.length}, 1fr)`,
+          }}
+        >
+          {product.modifications.sizes.map((size: Size, index: number) => (
             <button
               key={size.name}
               onClick={() => handleSizeSelect(size)}
-              className={`p-4 border rounded-lg transition-colors ${
-                selectedSize === size ? "bg-qopla-gold border-qopla-green" : "hover:bg-gray-50"
-              }`}
+              className={
+                `p-4 border rounded-lg transition-colors 
+                  ${selectedSize === size ? "bg-qopla-gold border-qopla-green" : "hover:bg-gray-50"}
+                `
+              }
             >
               <p className="font-medium">{size.name}</p>
               {size.addonPrice !== 0 && (
