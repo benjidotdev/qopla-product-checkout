@@ -2,7 +2,7 @@ import React from "react";
 
 const STEPS = ["Product", "Add-ons", "Review"];
 
-export const ProgressBar = ({ currentStep, totalSteps }: { currentStep: number; totalSteps: number; }) => {
+export const ProgressBar = ({ currentStep, totalSteps }: { currentStep: number; totalSteps: number }) => {
   const stepsToDisplay = totalSteps === 2 ? STEPS.filter(step => step !== "Add-ons") : STEPS;
 
   return (
@@ -18,9 +18,7 @@ export const ProgressBar = ({ currentStep, totalSteps }: { currentStep: number; 
         <div
           className="h-full bg-qopla-green rounded-full transition-all duration-300"
           style={{
-            width: currentStep === 1
-              ? "1%"
-              : `${((currentStep - 1) / (stepsToDisplay.length - 1)) * 100}%`
+            width: currentStep === 1 ? "1%" : `${((currentStep - 1) / (stepsToDisplay.length - 1)) * 100}%`,
           }}
         />
       </div>

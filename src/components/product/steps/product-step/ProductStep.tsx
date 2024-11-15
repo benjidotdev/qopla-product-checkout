@@ -11,12 +11,12 @@ interface ProductStepProps {
 }
 
 const ProductStep = ({
-                       product,
-                       selectedSize,
-                       setSelectedSize,
-                       selectedFlavor,
-                       setSelectedFlavor,
-                     }: ProductStepProps) => {
+  product,
+  selectedSize,
+  setSelectedSize,
+  selectedFlavor,
+  setSelectedFlavor,
+}: ProductStepProps) => {
   const handleSizeSelect = (size: Size) => {
     setSelectedSize(size);
   };
@@ -44,21 +44,15 @@ const ProductStep = ({
               key={size.name}
               onClick={() => handleSizeSelect(size)}
               className={clsx(
-                "px-2 py-4 border rounded-lg transition-colors",
+                "p-4 border rounded-lg transition-colors",
                 selectedSize === size
                   ? "bg-qopla-green border-qopla-gold text-qopla-gold"
-                  : "bg-gray-100 hover:bg-gray-200 text-gray-600"
+                  : "bg-gray-100 hover:bg-gray-200 text-gray-600",
               )}
             >
               <p className="font-bold">{size.name}</p>
               {size.addonPrice !== 0 && (
-                <p className={
-                  clsx(
-                    "text-xs",
-                    selectedSize === size
-                      ? "text-qopla-gold"
-                      : "text-gray-600"
-                  )}>
+                <p className={clsx("text-xs", selectedSize === size ? "text-qopla-gold" : "text-gray-600")}>
                   {size.addonPrice > 0 && "+"}
                   {size.addonPrice} SEK
                 </p>
@@ -67,9 +61,12 @@ const ProductStep = ({
           ))}
         </div>
         {nextSize && (
-          <p className="text-sm  mt-4">
+          <p className="text-sm text-gray-600 mt-4">
             <span>Upsell:&nbsp;</span>
-            <span className="italic">Would you like to make that a {nextSize.name} for only {nextSize.addonPrice - selectedSize.addonPrice} SEK more?</span>
+            <span className="italic">
+              Would you like to make that a {nextSize.name} for only {nextSize.addonPrice - selectedSize.addonPrice} SEK
+              more?
+            </span>
           </p>
         )}
       </div>
@@ -85,7 +82,7 @@ const ProductStep = ({
                 "px-2 py-4 border rounded-lg transition-colors",
                 selectedFlavor === flavour
                   ? "bg-qopla-green border-qopla-gold text-qopla-gold"
-                  : "bg-gray-100 hover:bg-gray-200 text-gray-600"
+                  : "bg-gray-100 hover:bg-gray-200 text-gray-600",
               )}
             >
               <p className="font-bold">{flavour.name}</p>

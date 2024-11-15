@@ -50,16 +50,17 @@ const Product = () => {
     };
     alert(
       `Order Summary:\n\n` +
-      `Size: ${order.size}\n` +
-      `Flavor: ${order.flavor}\n` +
-      (order.addOns.length > 0 ? (
-        `Add-ons:\n` +
-        `  ${order.addOns.map(group => {
-          return `${group.groupTitle}:\n` +
-            `    ${group.addons.map(addon => `- ${addon.name}`).join('\n    ')}`
-        }).join('\n  ')}\n`
-      ) : '') +
-      `Total Price: ${order.totalPrice.toFixed(2)} SEK`
+        `Size: ${order.size}\n` +
+        `Flavor: ${order.flavor}\n` +
+        (order.addOns.length > 0
+          ? `Add-ons:\n` +
+            `  ${order.addOns
+              .map(group => {
+                return `${group.groupTitle}:\n` + `    ${group.addons.map(addon => `- ${addon.name}`).join("\n    ")}`;
+              })
+              .join("\n  ")}\n`
+          : "") +
+        `Total Price: ${order.totalPrice.toFixed(2)} SEK`,
     );
   };
 
@@ -104,10 +105,7 @@ const Product = () => {
 
   return (
     <div className="flex flex-col bg-white w-full max-w-4xl h-full max-h-[80%] rounded-xl shadow-2xl p-6 my-12 gap-6">
-      <ProgressBar
-        currentStep={currentStep}
-        totalSteps={totalSteps}
-      />
+      <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       <div className="flex-1 flex gap-6 overflow-y-scroll">
         {currentStep !== totalSteps && <div className="w-2/3">{getCurrentStepComponent()}</div>}
         <div className="sticky top-0 w-1/3">

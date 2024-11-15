@@ -24,12 +24,16 @@ const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice }:
           {selectedAddOns.map((group, index) => (
             <React.Fragment key={index}>
               {group.addons.length > 0 && (
-                <li className="flex flex-col mb-2" >
+                <li className="flex flex-col mb-2">
                   <span className="text-sm font-light">{group.groupTitle}:</span>
                   <ul>
                     {group.addons.map((addon, addonIndex) => (
                       <li className="text-lg font-bold" key={addonIndex}>
-                        {group.groupTitle === "To remove" ? `- ${addon.name}` : group.groupTitle === "Extra toppings" ? `+ ${addon.name}` : addon.name}
+                        {group.groupTitle === "To remove"
+                          ? `- ${addon.name}`
+                          : group.groupTitle === "Extra toppings"
+                            ? `+ ${addon.name}`
+                            : addon.name}
                       </li>
                     ))}
                   </ul>

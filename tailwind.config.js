@@ -9,7 +9,7 @@ module.exports = {
         "qopla-gold": "#fcdfb2",
       },
       backgroundImage: {
-        'bg-image': "url('./assets/background/bg-image.svg')",
+        "bg-image": "url('./assets/background/bg-image.svg')",
       },
     },
   },
