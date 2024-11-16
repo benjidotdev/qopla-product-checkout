@@ -19,6 +19,7 @@ const Product = () => {
   const [selectedAddOns, setSelectedAddOns] = useState<SelectedAddOnGroup[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [totalSteps, setTotalSteps] = useState<number>(0);
+  const [isBackTransition, setIsBackTransition] = useState<boolean>(false);
   const basePriceRef = useRef<number>(0);
 
   // Sets defaults
@@ -51,18 +52,23 @@ const Product = () => {
       totalPrice,
     };
     alert(
-        `Size: ${order.size}\n` +
-        `Flavor: ${order.flavor}\n` +
-        (order.addOns.length > 0
-          ? `Add-ons:\n` +
-            `  ${order.addOns
-              .map(group => {
-                return `${group.groupTitle}:\n` + `    ${group.addons.map(addon => `- ${addon.name}`).join("\n    ")}`;
-              })
-              .join("\n  ")}\n`
-          : "") +
-        `Total Price: ${order.totalPrice.toFixed(2)} ${CURRENCY_CODE}`,
+      `Size: ${order.size}\n` +
+      `Flavor: ${order.flavor}\n` +
+      (order.addOns.length > 0
+        ? `Add-ons:\n` +
+        `  ${order.addOns
+          .map(group => {
+            return `${group.groupTitle}:\n` + `    ${group.addons.map(addon => `- ${addon.name}`).join("\n    ")}`;
+          })
+          .join("\n  ")}\n`
+        : "") +
+      `Total Price: ${order.totalPrice.toFixed(2)} ${CURRENCY_CODE}`,
     );
+  };
+
+  const handleBackStep = () => {
+    setIsBackTransition(true);
+    setCurrentStep(prev => prev - 1);
   };
 
   const getCurrentStepComponent = () => {
@@ -102,23 +108,31 @@ const Product = () => {
         <AnimatePresence mode="wait">
           {currentStep !== totalSteps && (
             <motion.div
-              initial={{ width: "66.6667%", opacity: 1 }}
+              key="stepComponent"
+              initial={{ width: isBackTransition ? 0 : "66.6667%", opacity: isBackTransition ? 0 : 1 }}
               animate={{ width: "66.6667%", opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{
-                width: { duration: 0.5, ease: "easeInOut" },
-                opacity: { duration: 0.3, ease: "easeInOut" },
+                width: { duration: 0.5, ease: "easeIn" },
+                opacity: { duration: 0.3, ease: "easeIn" },
               }}
+              style={{ overflow: 'hidden' }}
+              onAnimationComplete={() => setIsBackTransition(false)}
             >
               {getCurrentStepComponent()}
             </motion.div>
           )}
         </AnimatePresence>
         <motion.div
+          key="overview"
           className="sticky top-0"
           initial={{ width: currentStep === totalSteps ? "100%" : "33.3333%" }}
           animate={{ width: currentStep === totalSteps ? "100%" : "33.3333%" }}
-          transition={{ duration: 0.5, ease: "easeIn" }}>
+          transition={{
+            width: { duration: 0.5, ease: "easeIn" },
+            opacity: { duration: 0.3, ease: "easeIn" },
+          }}
+        >
           <Overview
             selectedSize={selectedSize}
             selectedFlavour={selectedFlavour}
@@ -133,6 +147,7 @@ const Product = () => {
         totalSteps={totalSteps}
         disableNext={false}
         handleSubmit={handleSubmit}
+        handleBackStep={handleBackStep}
       />
     </div>
   );

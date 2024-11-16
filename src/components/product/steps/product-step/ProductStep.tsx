@@ -65,7 +65,7 @@ const ProductStep = ({
           <p className="text-sm text-gray-600 mt-4">
             <span>Upsell:&nbsp;</span>
             <span className="italic">
-              Would you like to make that a {nextSize.name} for only {nextSize.addonPrice - selectedSize.addonPrice} {CURRENCY_CODE} more?
+              "Would you like to make that a {nextSize.name} for only {nextSize.addonPrice - selectedSize.addonPrice} {CURRENCY_CODE} more?"
             </span>
           </p>
         )}

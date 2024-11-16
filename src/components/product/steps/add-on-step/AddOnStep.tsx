@@ -130,7 +130,7 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
         const allAddonsHaveLimitOne = group.addons.every(a => a.limit === 1);
 
         return (
-          <div key={getGroupKey(group, index)} className="space-y-4">
+          <div key={getGroupKey(group, index)} className="space-y-4 whitespace-nowrap">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">{group.name}</h2>
               <p className="text-sm text-gray-600">
@@ -201,7 +201,7 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
                             </button>
                             <div className="flex items-center justify-center text-sm mx-2 w-6">
                               <p>{count}</p>
-                              <span>/{addon.limit}</span>
+                              <span>/{Math.min(addon.limit, group.limit)}</span>
                             </div>
                             <button
                               className={clsx(
