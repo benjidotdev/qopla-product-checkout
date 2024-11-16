@@ -15,8 +15,7 @@ const getProduct = async (id: string): Promise<PartialGetProductResponse> => {
 
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      // const failRandomly = Math.random() < 0.2;
-      const failRandomly = false;
+      const failRandomly = Math.random() < 0.2;
       if (failRandomly) {
         reject(new Error("Mock API request failed"));
       } else {

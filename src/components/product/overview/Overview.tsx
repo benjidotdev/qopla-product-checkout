@@ -46,7 +46,9 @@ const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice }:
       </div>
       <div className="flex flex-col mb-2">
         <span className="text-sm font-light">Total Price:</span>
-        <span className="text-lg font-bold">{totalPrice.toFixed(2)} {CURRENCY_CODE}</span>
+        <span className="text-lg font-bold">
+          {totalPrice.toFixed(2)} {CURRENCY_CODE}
+        </span>
       </div>
     </div>
   );

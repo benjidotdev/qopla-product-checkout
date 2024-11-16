@@ -1,7 +1,7 @@
 import React from "react";
-import { AdditionalData, SelectedAddOnGroup } from "../../../../types/products";
-import clsx from "clsx";
-import { CURRENCY_CODE } from "../../../../constants";
+import { AdditionalData, AddOn, SelectedAddOnGroup } from "../../../../types/products";
+import ToggleButton from "./toggle-button/ToggleButton";
+import QuantityButton from "./quantity-button/QuantityButton";
 
 interface AddOnProps {
   additionalData: AdditionalData[];
@@ -12,15 +12,8 @@ interface AddOnProps {
 const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnProps) => {
   const sortedAdditionalData = [...additionalData].sort((a, b) => a.sortOrder - b.sortOrder);
 
-  const getGroupKey = (group: AdditionalData, index: number) => {
-    return `group-${group.name.toLowerCase().replace(/\s+/g, "-")}-${index}`;
-  };
-
-  const getAddonKey = (group: AdditionalData, addon: any, index: number) => {
-    return `addon-${group.name.toLowerCase().replace(/\s+/g, "-")}-${addon.addon.name.toLowerCase().replace(/\s+/g, "-")}-${index}`;
-  };
-
-  const getAddonCount = (group: AdditionalData, addon: any) => {
+  // Calculates how many times a specific addon has been selected
+  const getAddonCount = (group: AdditionalData, addon: AddOn) => {
     return selectedAddOns.reduce((acc, selectedGroup) => {
       if (selectedGroup.groupTitle === group.name) {
         return acc + selectedGroup.addons.filter(selectedAddon => selectedAddon.name === addon.addon.name).length;
@@ -29,13 +22,15 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
     }, 0);
   };
 
-  const handleAddAddon = (group: AdditionalData, addon: any) => {
+  // Adds an addon to specific group
+  const handleAddAddon = (group: AdditionalData, addon: AddOn) => {
     const totalSelectedAddonsInGroup = selectedAddOns.reduce((acc, selectedGroup) => {
       if (selectedGroup.groupTitle === group.name) {
         return acc + selectedGroup.addons.length;
       }
       return acc;
     }, 0);
+
     if (getAddonCount(group, addon) < addon.limit && totalSelectedAddonsInGroup < group.limit) {
       const existingGroup = selectedAddOns.find(g => g.groupTitle === group.name);
       if (existingGroup) {
@@ -58,7 +53,8 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
     }
   };
 
-  const handleToggleAddon = (group: AdditionalData, addon: any) => {
+  // Toggles an addon if it or it's group had a limit of 1
+  const handleToggleAddon = (group: AdditionalData, addon: AddOn) => {
     const existingGroup = selectedAddOns.find(g => g.groupTitle === group.name);
     if (existingGroup) {
       const existingAddon = existingGroup.addons.find(a => a.name === addon.addon.name);
@@ -103,7 +99,8 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
     }
   };
 
-  const handleRemoveAddon = (group: AdditionalData, addon: any) => {
+  // Removes an addon from a specific group
+  const handleRemoveAddon = (group: AdditionalData, addon: AddOn) => {
     const count = getAddonCount(group, addon);
     if (count > 0) {
       const existingGroup = selectedAddOns.find(g => g.groupTitle === group.name);
@@ -125,96 +122,57 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
   };
 
   return (
-    <div className="space-y-6">
-      {sortedAdditionalData.map((group, index) => {
-        const allAddonsHaveLimitOne = group.addons.every(a => a.limit === 1);
+    <div className="space-y-6 whitespace-nowrap">
+      {sortedAdditionalData.map(group => {
+        const allAddonsHaveLimitOne = group.addons.every(a => a.limit <= 1);
+        const totalSelectedAddonsInGroup = selectedAddOns.reduce((acc, selectedGroup) => {
+          if (selectedGroup.groupTitle === group.name) {
+            return acc + selectedGroup.addons.length;
+          }
+          return acc;
+        }, 0);
+        const groupDisabled = totalSelectedAddonsInGroup >= group.limit;
 
         return (
-          <div key={getGroupKey(group, index)} className="space-y-4 whitespace-nowrap">
+          <div key={group.name} className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">{group.name}</h2>
-              <p className="text-sm text-gray-600">
-                Selected {selectedAddOns.find(g => g.groupTitle === group.name)?.addons.length || 0}/{group.limit} items
-              </p>
+              <div className="flex items-center text-sm text-gray-600">
+                Selected{" "}
+                <div className="w-7 flex justify-center">
+                  {selectedAddOns.find(g => g.groupTitle === group.name)?.addons.length || 0}/{group.limit}
+                </div>{" "}
+                items
+              </div>
             </div>
             <div className="grid grid-cols-1 gap-4">
               {group.addons
                 .sort((a, b) => a.sortOrder - b.sortOrder)
-                .map((addon, index) => {
+                .map(addon => {
                   const count = getAddonCount(group, addon);
 
                   return (
-                    <div key={getAddonKey(group, addon, index)} className="flex items-center">
+                    <div key={addon.addon.name} className="flex items-center">
                       {allAddonsHaveLimitOne || group.limit === 1 ? (
-                        <button
-                          className={clsx(
-                            "flex flex-1 items-center justify-between p-4 border rounded-lg transition-colors",
-                            selectedAddOns.some(
-                              selectedGroup =>
-                                selectedGroup.groupTitle === group.name &&
-                                selectedGroup.addons.some(selectedAddon => selectedAddon.name === addon.addon.name),
-                            )
-                              ? "bg-qopla-green border-qopla-gold text-qopla-gold"
-                              : "bg-gray-100 hover:bg-gray-200 text-gray-600",
+                        <ToggleButton
+                          addon={addon}
+                          isSelected={selectedAddOns.some(
+                            selectedGroup =>
+                              selectedGroup.groupTitle === group.name &&
+                              selectedGroup.addons.some(selectedAddon => selectedAddon.name === addon.addon.name),
                           )}
                           onClick={() => handleToggleAddon(group, addon)}
-                        >
-                          <span className="font-bold">{addon.addon.name}</span>
-                          {addon.addon.price !== 0 && (
-                            <span
-                              className={clsx(
-                                "text-xs text-gray-600",
-                                selectedAddOns.some(
-                                  selectedGroup =>
-                                    selectedGroup.groupTitle === group.name &&
-                                    selectedGroup.addons.some(selectedAddon => selectedAddon.name === addon.addon.name),
-                                )
-                                  ? "border-qopla-gold text-qopla-gold"
-                                  : "hover:bg-gray-200 text-gray-600",
-                              )}
-                            >
-                              {addon.addon.price > 0 && "+"}
-                              {addon.addon.price} {CURRENCY_CODE}
-                            </span>
-                          )}
-                        </button>
+                          groupDisabled={groupDisabled}
+                        />
                       ) : (
-                        <div
-                          className={clsx(
-                            "flex flex-1 items-center justify-between p-4 border rounded-lg transition-colors",
-                            count > 0 ? "bg-qopla-green border-qopla-gold text-qopla-gold" : "bg-gray-100 text-gray-600",
-                          )}
-                        >
-                          <div>
-                            <span className="font-bold">{addon.addon.name}</span>
-                            <span className="ml-4 text-xs">{addon.addon.price > 0 && `+ ${addon.addon.price} ${CURRENCY_CODE}`}</span>
-                          </div>
-                          <div className="flex items-center">
-                          <button
-                              className={clsx(
-                                "px-2 py-1 bg-gray-200 rounded-lg aspect-square w-8 h-8",
-                                count > 0 ? "bg-qopla-gold border-qopla-gold text-qopla-green" : "bg-gray-100 text-gray-600",
-                              )}
-                              onClick={() => handleRemoveAddon(group, addon)}
-                            >
-                              -
-                            </button>
-                            <div className="flex items-center justify-center text-sm mx-2 w-6">
-                              <p>{count}</p>
-                              <span>/{Math.min(addon.limit, group.limit)}</span>
-                            </div>
-                            <button
-                              className={clsx(
-                                "px-2 py-1 bg-gray-200 rounded-lg aspect-square w-8 h-8",
-                                count > 0 ? "bg-qopla-gold border-qopla-gold text-qopla-green" : "bg-gray-100 text-gray-600",
-                              )}
-                              onClick={() => handleAddAddon(group, addon)}
-                              disabled={count >= addon.limit || count >= group.limit}
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
+                        <QuantityButton
+                          addon={addon}
+                          onAdd={() => handleAddAddon(group, addon)}
+                          onRemove={() => handleRemoveAddon(group, addon)}
+                          group={group}
+                          groupDisabled={groupDisabled}
+                          count={count}
+                        />
                       )}
                     </div>
                   );

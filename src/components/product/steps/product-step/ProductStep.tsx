@@ -31,7 +31,7 @@ const ProductStep = ({
   const nextSize = sizes[currentIndex + 1];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 whitespace-nowrap">
       <div>
         <h2 className="text-xl font-semibold mb-4">Select size</h2>
         <div
@@ -65,7 +65,8 @@ const ProductStep = ({
           <p className="text-sm text-gray-600 mt-4">
             <span>Upsell:&nbsp;</span>
             <span className="italic">
-              "Would you like to make that a {nextSize.name} for only {nextSize.addonPrice - selectedSize.addonPrice} {CURRENCY_CODE} more?"
+              &quot;Would you like to make that a {nextSize.name} for only{" "}
+              {nextSize.addonPrice - selectedSize.addonPrice} {CURRENCY_CODE} more?&quot;
             </span>
           </p>
         )}

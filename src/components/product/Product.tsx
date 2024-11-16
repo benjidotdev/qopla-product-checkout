@@ -8,7 +8,6 @@ import AddOnStep from "./steps/add-on-step/AddOnStep";
 import ProgressButtons from "./progress-buttons/ProgressButtons";
 import { Flavour, Size, SelectedAddOnGroup } from "../../types/products";
 import Overview from "./overview/Overview";
-import { CURRENCY_CODE } from "../../constants";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Product = () => {
@@ -51,19 +50,7 @@ const Product = () => {
       addOns: selectedAddOns,
       totalPrice,
     };
-    alert(
-      `Size: ${order.size}\n` +
-      `Flavor: ${order.flavor}\n` +
-      (order.addOns.length > 0
-        ? `Add-ons:\n` +
-        `  ${order.addOns
-          .map(group => {
-            return `${group.groupTitle}:\n` + `    ${group.addons.map(addon => `- ${addon.name}`).join("\n    ")}`;
-          })
-          .join("\n  ")}\n`
-        : "") +
-      `Total Price: ${order.totalPrice.toFixed(2)} ${CURRENCY_CODE}`,
-    );
+    console.log(order);
   };
 
   const handleBackStep = () => {
@@ -116,7 +103,7 @@ const Product = () => {
                 width: { duration: 0.5, ease: "easeIn" },
                 opacity: { duration: 0.3, ease: "easeIn" },
               }}
-              style={{ overflow: 'hidden' }}
+              style={{ overflow: "hidden" }}
               onAnimationComplete={() => setIsBackTransition(false)}
             >
               {getCurrentStepComponent()}

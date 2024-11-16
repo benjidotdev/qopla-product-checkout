@@ -12,13 +12,13 @@ interface ProgressButtonsProps {
 }
 
 const ProgressButtons = ({
-                           currentStep,
-                           setCurrentStep,
-                           totalSteps,
-                           disableNext,
-                           handleSubmit,
-                           handleBackStep,
-                         }: ProgressButtonsProps) => {
+  currentStep,
+  setCurrentStep,
+  totalSteps,
+  disableNext,
+  handleSubmit,
+  handleBackStep,
+}: ProgressButtonsProps) => {
   const handleNextStep = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
@@ -37,12 +37,12 @@ const ProgressButtons = ({
             initial={{ width: 0, opacity: 0 }}
             animate={{ width: "25%", opacity: 1 }}
             exit={{ width: 0, opacity: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{
+              width: { duration: 0.5, ease: "easeOut" },
+              opacity: { duration: 0.3, ease: "easeOut" },
+            }}
           >
-            <button
-              className="hover:bg-gray-100 border font-bold p-4 rounded-lg w-full"
-              onClick={handleBackStep}
-            >
+            <button className="hover:bg-gray-100 border font-bold p-4 rounded-lg w-full" onClick={handleBackStep}>
               Back
             </button>
           </motion.div>
@@ -52,14 +52,17 @@ const ProgressButtons = ({
         key="next-button"
         className={clsx(
           currentStep > 1 ? "flex-grow" : "w-full",
-          "bg-qopla-green hover:bg-qopla-green-dark text-qopla-gold border border-qopla-gold font-bold p-4 rounded-lg"
+          "bg-qopla-green hover:bg-qopla-green-dark text-qopla-gold border border-qopla-gold font-bold p-4 rounded-lg",
         )}
         onClick={handleNextStep}
         disabled={disableNext}
         initial={{ width: "100%" }}
         animate={{ width: currentStep > 1 ? "75%" : "100%" }}
         exit={{ width: currentStep > 1 ? "75%" : "100%" }}
-        transition={{ duration: 0.5 }}
+        transition={{
+          width: { duration: 0.5, ease: "easeOut" },
+          opacity: { duration: 0.3, ease: "easeOut" },
+        }}
       >
         {currentStep < totalSteps ? "Next" : "Add to order"}
       </motion.button>
