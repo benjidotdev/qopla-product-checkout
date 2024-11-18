@@ -11,13 +11,13 @@ interface OverviewProps {
 }
 
 const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice, additionalData }: OverviewProps) => {
-  const getFormattedAddonName = (group: SelectedAddOnGroup, addon: AddOnDetails) => {
+  const getFormattedAddonName = (group: SelectedAddOnGroup, addon: { name: string }) => {
     if (group.groupTitle === "To remove") {
-      return `- ${addon.name}`;
+      return `-`;
     } else if (group.groupTitle === "Extra toppings") {
-      return `+ ${addon.name}`;
+      return `+`;
     }
-    return addon.name;
+    return '';
   };
 
   const sortedSelectedAddOns = additionalData?.length > 0 ? [...selectedAddOns].sort((a, b) => {
@@ -32,13 +32,24 @@ const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice, a
   const renderAddOns = (group: SelectedAddOnGroup, index: number) => {
     if (group.addons.length === 0) return null;
 
+    const addonCounts: { name: string; count: number }[] = [];
+
+    group.addons.forEach((addon) => {
+      const existingAddon = addonCounts.find((a: { name: string; count: number }) => a.name === addon.name);
+      if (existingAddon) {
+        existingAddon.count++;
+      } else {
+        addonCounts.push({ name: addon.name, count: 1 });
+      }
+    });
+
     return (
       <li key={index} className="flex flex-col mb-2">
         <span className="text-sm font-light">{group.groupTitle}:</span>
         <ul>
-          {group.addons.map((addon, addonIndex) => (
+          {addonCounts.map((addon: { name: string; count: number }, addonIndex) => (
             <li key={addonIndex} className="text-lg font-bold">
-              {getFormattedAddonName(group, addon)}
+              {getFormattedAddonName(group, { name: '' })}{addon.count > 1 ? ` x${addon.count}` : ''} {addon.name}
             </li>
           ))}
         </ul>
