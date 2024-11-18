@@ -42,23 +42,38 @@ const Product = () => {
   if (error) return <ErrorIndicator error={error} />;
 
   return (
-    <div className="flex flex-col bg-white w-full max-w-4xl h-full max-h-[80%] rounded-xl shadow-2xl p-6 my-12 gap-6">
+    <div className="flex flex-col bg-white w-full md:max-w-3xl h-full md:max-h-[80%] rounded-xl shadow-2xl p-6 my-12 gap-6">
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
-      <div className="flex-1 flex gap-6 overflow-y-scroll">
+      <div className="flex flex-1 flex-col md:flex-row gap-6 overflow-y-scroll">
         <AnimatePresence mode="wait">
           {currentStep !== totalSteps && (
             <motion.div
               key="stepComponent"
-              initial={{ width: isBackTransition ? 0 : "66.6667%", opacity: isBackTransition ? 0 : 1 }}
-              animate={{ width: "66.6667%", opacity: 1 }}
-              exit={{ width: 0, opacity: 0 }}
+              className="step-component"
+              initial={{
+                height: window.innerWidth < 768 ? (isBackTransition ? 0 : "100%") : "auto",
+                width: window.innerWidth < 768 ? "100%" : isBackTransition ? 0 : "66.6667%",
+                opacity: isBackTransition ? 0 : 1,
+              }}
+              animate={{
+                height: window.innerWidth < 768 ? "100%" : "auto",
+                width: window.innerWidth < 768 ? "100%" : "66.6667%",
+                opacity: 1,
+              }}
+              exit={{
+                height: window.innerWidth < 768 ? 0 : "auto",
+                width: window.innerWidth < 768 ? "100%" : 0,
+                opacity: 0,
+              }}
               transition={{
+                height: { duration: 0.5, ease: "easeIn" },
                 width: { duration: 0.5, ease: "easeIn" },
                 opacity: { duration: 0.3, ease: "easeIn" },
               }}
-              style={{ overflow: "hidden" }}
-              onAnimationComplete={() => setIsBackTransition(false)}
-            >
+              style={{
+                overflow: window.innerWidth < 768 ? "auto" : "hidden",
+              }}
+              onAnimationComplete={() => setIsBackTransition(false)}>
               <StepComponent
                 currentStep={currentStep}
                 product={product}
@@ -73,6 +88,7 @@ const Product = () => {
             </motion.div>
           )}
         </AnimatePresence>
+        {currentStep !== totalSteps && <hr className="block md:hidden p-0" />}
         <motion.div
           key="overview"
           className="sticky top-0"
@@ -81,8 +97,7 @@ const Product = () => {
           transition={{
             width: { duration: 0.5, ease: "easeIn" },
             opacity: { duration: 0.3, ease: "easeIn" },
-          }}
-        >
+          }}>
           <Overview
             selectedSize={selectedSize}
             selectedFlavour={selectedFlavour}

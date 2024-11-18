@@ -14,3 +14,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #084625;
 }
+
+@media (max-width: 767px) {
+  .step-component {
+    width: 100% !important;
+  }
+}
