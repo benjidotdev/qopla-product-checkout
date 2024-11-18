@@ -22,116 +22,78 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
     }, 0);
   };
 
-  // Adds an addon to specific group
-  const handleAddAddon = (group: AdditionalData, addon: AddOn) => {
-    const totalSelectedAddonsInGroup = selectedAddOns.reduce((acc, selectedGroup) => {
-      if (selectedGroup.groupTitle === group.name) {
-        return acc + selectedGroup.addons.length;
-      }
-      return acc;
-    }, 0);
+  const getExistingGroup = (group: AdditionalData) => selectedAddOns.find(g => g.groupTitle === group.name);
 
-    if (getAddonCount(group, addon) < addon.limit && totalSelectedAddonsInGroup < group.limit) {
-      const existingGroup = selectedAddOns.find(g => g.groupTitle === group.name);
-      if (existingGroup) {
-        if (existingGroup.addons.length < group.limit) {
-          const newAddons = [...existingGroup.addons, addon.addon];
-          const newGroups = selectedAddOns.map(g => {
-            if (g.groupTitle === group.name) {
-              return { ...g, addons: newAddons };
-            }
-            return g;
-          });
-          setSelectedAddOns(newGroups);
+  const getExistingAddon = (group: AdditionalData, addon: AddOn) => {
+    const existingGroup = getExistingGroup(group);
+    return existingGroup ? existingGroup.addons.find(a => a.name === addon.addon.name) : null;
+  };
+
+  const addAddOnToGroup = (group: AdditionalData, addon: AddOn) => {
+    const existingGroup = getExistingGroup(group);
+    if (existingGroup) {
+      const newAddons = [...existingGroup.addons, addon.addon];
+      const newGroups = selectedAddOns.map(g => {
+        if (g.groupTitle === group.name) {
+          return { ...g, addons: newAddons };
         }
-      } else {
-        if (selectedAddOns.filter(g => g.groupTitle === group.name).length < group.limit) {
-          const newGroup = { groupTitle: group.name, addons: [addon.addon] };
-          setSelectedAddOns([...selectedAddOns, newGroup]);
-        }
-      }
+        return g;
+      });
+      setSelectedAddOns(newGroups);
+    } else {
+      const newGroup = { groupTitle: group.name, addons: [addon.addon] };
+      setSelectedAddOns([...selectedAddOns, newGroup]);
     }
   };
 
-  // Toggles an addon if it or it's group had a limit of 1
-  const handleToggleAddon = (group: AdditionalData, addon: AddOn) => {
-    const existingGroup = selectedAddOns.find(g => g.groupTitle === group.name);
+  const getSelectedAddonsInGroup = (group: AdditionalData) => {
+    const existingGroup = getExistingGroup(group);
+    return existingGroup ? existingGroup.addons.length : 0;
+  };
+
+  const removeAddonFromGroup = (group: AdditionalData, addon: AddOn) => {
+    const existingGroup = getExistingGroup(group);
     if (existingGroup) {
-      const existingAddon = existingGroup.addons.find(a => a.name === addon.addon.name);
-      if (existingAddon) {
-        const newAddons = existingGroup.addons.filter(a => a.name !== addon.addon.name);
-        const newGroups = selectedAddOns.map(g => {
-          if (g.groupTitle === group.name) {
-            return { ...g, addons: newAddons };
-          }
-          return g;
-        });
-        setSelectedAddOns(newGroups);
-      } else {
-        const totalSelectedAddonsInGroup = selectedAddOns.reduce((acc, selectedGroup) => {
-          if (selectedGroup.groupTitle === group.name) {
-            return acc + selectedGroup.addons.length;
-          }
-          return acc;
-        }, 0);
-        if (totalSelectedAddonsInGroup < group.limit) {
-          const newAddons = [...existingGroup.addons, addon.addon];
-          const newGroups = selectedAddOns.map(g => {
-            if (g.groupTitle === group.name) {
-              return { ...g, addons: newAddons };
-            }
-            return g;
-          });
-          setSelectedAddOns(newGroups);
+      const newAddons = existingGroup.addons.filter(a => a.name !== addon.addon.name);
+      const newGroups = selectedAddOns.map(g => {
+        if (g.groupTitle === group.name) {
+          return { ...g, addons: newAddons };
         }
-      }
+        return g;
+      });
+      setSelectedAddOns(newGroups);
+    }
+  };
+
+  // Adds an addon to specific group
+  const handleAddAddon = (group: AdditionalData, addon: AddOn) => {
+    if (getSelectedAddonsInGroup(group) < group.limit && getAddonCount(group, addon) < addon.limit) {
+      addAddOnToGroup(group, addon);
+    }
+  };
+
+  // Toggles an addon if it or it's group has a limit of 1
+  const handleToggleAddon = (group: AdditionalData, addon: AddOn) => {
+    const existingAddon = getExistingAddon(group, addon);
+    if (existingAddon) {
+      removeAddonFromGroup(group, addon);
     } else {
-      const totalSelectedAddonsInGroup = selectedAddOns.reduce((acc, selectedGroup) => {
-        if (selectedGroup.groupTitle === group.name) {
-          return acc + selectedGroup.addons.length;
-        }
-        return acc;
-      }, 0);
-      if (totalSelectedAddonsInGroup < group.limit) {
-        const newGroup = { groupTitle: group.name, addons: [addon.addon] };
-        setSelectedAddOns([...selectedAddOns, newGroup]);
+      if (getSelectedAddonsInGroup(group) < group.limit && getAddonCount(group, addon) < addon.limit) {
+        addAddOnToGroup(group, addon);
       }
     }
   };
 
   // Removes an addon from a specific group
   const handleRemoveAddon = (group: AdditionalData, addon: AddOn) => {
-    const count = getAddonCount(group, addon);
-    if (count > 0) {
-      const existingGroup = selectedAddOns.find(g => g.groupTitle === group.name);
-      if (existingGroup) {
-        const index = existingGroup.addons.findIndex(a => a.name === addon.addon.name);
-        if (index !== -1) {
-          const newAddons = [...existingGroup.addons];
-          newAddons.splice(index, 1);
-          const newGroups = selectedAddOns.map(g => {
-            if (g.groupTitle === group.name) {
-              return { ...g, addons: newAddons };
-            }
-            return g;
-          });
-          setSelectedAddOns(newGroups);
-        }
-      }
-    }
+    removeAddonFromGroup(group, addon);
   };
 
   return (
     <div className="space-y-6 whitespace-nowrap">
       {sortedAdditionalData.map(group => {
         const allAddonsHaveLimitOne = group.addons.every(a => a.limit <= 1);
-        const totalSelectedAddonsInGroup = selectedAddOns.reduce((acc, selectedGroup) => {
-          if (selectedGroup.groupTitle === group.name) {
-            return acc + selectedGroup.addons.length;
-          }
-          return acc;
-        }, 0);
-        const groupDisabled = totalSelectedAddonsInGroup >= group.limit;
+        const groupDisabled = getSelectedAddonsInGroup(group) >= group.limit;
 
         return (
           <div key={group.name} className="space-y-4">
@@ -140,7 +102,7 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
               <div className="flex items-center text-sm text-gray-600">
                 Selected{" "}
                 <div className="w-7 flex justify-center">
-                  {selectedAddOns.find(g => g.groupTitle === group.name)?.addons.length || 0}/{group.limit}
+                  {getSelectedAddonsInGroup(group)}/{group.limit}
                 </div>{" "}
                 items
               </div>
@@ -156,11 +118,7 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
                       {allAddonsHaveLimitOne || group.limit === 1 ? (
                         <ToggleButton
                           addon={addon}
-                          isSelected={selectedAddOns.some(
-                            selectedGroup =>
-                              selectedGroup.groupTitle === group.name &&
-                              selectedGroup.addons.some(selectedAddon => selectedAddon.name === addon.addon.name),
-                          )}
+                          isSelected={!!getExistingAddon(group, addon)}
                           onClick={() => handleToggleAddon(group, addon)}
                           groupDisabled={groupDisabled}
                         />

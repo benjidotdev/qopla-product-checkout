@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface ProgressButtonsProps {
   currentStep: number;
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentStep: (value: number) => void;
   totalSteps: number;
   disableNext: boolean;
   handleSubmit: () => void;
-  handleBackStep: () => void;
+  setIsBackTransition: (value: boolean) => void;
 }
 
 const ProgressButtons = ({
@@ -17,8 +17,13 @@ const ProgressButtons = ({
   totalSteps,
   disableNext,
   handleSubmit,
-  handleBackStep,
+  setIsBackTransition,
 }: ProgressButtonsProps) => {
+  const handleBackStep = () => {
+    setIsBackTransition(true);
+    setCurrentStep(currentStep - 1);
+  };
+
   const handleNextStep = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
@@ -53,18 +58,12 @@ const ProgressButtons = ({
         className={clsx(
           currentStep > 1 ? "flex-grow" : "w-full",
           "bg-qopla-green hover:bg-qopla-green-dark text-qopla-gold border border-qopla-gold font-bold p-4 rounded-lg",
+          disableNext && "opacity-50 cursor-not-allowed",
         )}
         onClick={handleNextStep}
         disabled={disableNext}
-        initial={{ width: "100%" }}
-        animate={{ width: currentStep > 1 ? "75%" : "100%" }}
-        exit={{ width: currentStep > 1 ? "75%" : "100%" }}
-        transition={{
-          width: { duration: 0.5, ease: "easeOut" },
-          opacity: { duration: 0.3, ease: "easeOut" },
-        }}
       >
-        {currentStep < totalSteps ? "Next" : "Add to order"}
+        {currentStep < totalSteps ? "Next" : "Submit"}
       </motion.button>
     </div>
   );

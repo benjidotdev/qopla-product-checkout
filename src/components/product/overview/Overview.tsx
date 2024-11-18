@@ -1,5 +1,5 @@
 import React from "react";
-import { Flavour, SelectedAddOnGroup, Size } from "../../../types/products";
+import { AddOnDetails, Flavour, SelectedAddOnGroup, Size, AdditionalData } from "../../../types/products";
 import { CURRENCY_CODE } from "../../../constants";
 
 interface OverviewProps {
@@ -7,9 +7,45 @@ interface OverviewProps {
   selectedFlavour: Flavour;
   selectedAddOns: SelectedAddOnGroup[];
   totalPrice: number;
+  additionalData: AdditionalData[];
 }
 
-const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice }: OverviewProps) => {
+const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice, additionalData }: OverviewProps) => {
+  const getFormattedAddonName = (group: SelectedAddOnGroup, addon: AddOnDetails) => {
+    if (group.groupTitle === "To remove") {
+      return `- ${addon.name}`;
+    } else if (group.groupTitle === "Extra toppings") {
+      return `+ ${addon.name}`;
+    }
+    return addon.name;
+  };
+
+  const sortedSelectedAddOns = additionalData?.length > 0 ? [...selectedAddOns].sort((a, b) => {
+    const groupA = additionalData?.find(group => group.name === a.groupTitle);
+    const groupB = additionalData?.find(group => group.name === b.groupTitle);
+    if (!groupA || !groupB) {
+      return 0;
+    }
+    return groupA.sortOrder - groupB.sortOrder;
+  }) : selectedAddOns;
+
+  const renderAddOns = (group: SelectedAddOnGroup, index: number) => {
+    if (group.addons.length === 0) return null;
+
+    return (
+      <li key={index} className="flex flex-col mb-2">
+        <span className="text-sm font-light">{group.groupTitle}:</span>
+        <ul>
+          {group.addons.map((addon, addonIndex) => (
+            <li key={addonIndex} className="text-lg font-bold">
+              {getFormattedAddonName(group, addon)}
+            </li>
+          ))}
+        </ul>
+      </li>
+    );
+  };
+
   return (
     <div className="flex flex-col h-full w-full px-6 border-l border-gray-200">
       <div className="flex flex-col mb-2">
@@ -22,26 +58,7 @@ const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice }:
       </div>
       <div className="mb-6 flex-1">
         <ul>
-          {selectedAddOns.map((group, index) => (
-            <React.Fragment key={index}>
-              {group.addons.length > 0 && (
-                <li className="flex flex-col mb-2">
-                  <span className="text-sm font-light">{group.groupTitle}:</span>
-                  <ul>
-                    {group.addons.map((addon, addonIndex) => (
-                      <li className="text-lg font-bold" key={addonIndex}>
-                        {group.groupTitle === "To remove"
-                          ? `- ${addon.name}`
-                          : group.groupTitle === "Extra toppings"
-                            ? `+ ${addon.name}`
-                            : addon.name}
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              )}
-            </React.Fragment>
-          ))}
+          {sortedSelectedAddOns.map(renderAddOns)}
         </ul>
       </div>
       <div className="flex flex-col mb-2">
