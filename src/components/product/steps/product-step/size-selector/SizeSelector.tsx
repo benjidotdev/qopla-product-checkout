@@ -57,9 +57,9 @@ const SizeSelector = ({
         ))}
       </div>
       {nextSize && (
-        <p className="text-sm text-gray-600 mt-4">
+        <p className="text-xs md:text-sm text-gray-600 mt-4">
           <span>Upsell:&nbsp;</span>
-          <span className="italic">
+          <span className="italic whitespace-normal">
             &quot;Would you like to make that a {nextSize.name} for only {nextSize.addonPrice - selectedSize.addonPrice}{" "}
             {CURRENCY_CODE} more?&quot;
           </span>

@@ -54,10 +54,10 @@ const AddOnStep = ({ additionalData, selectedAddOns, setSelectedAddOns }: AddOnP
   const removeAddonFromGroup = (group: AdditionalData, addon: AddOn) => {
     const existingGroup = getExistingGroup(group);
     if (existingGroup) {
-      const addonIndex = existingGroup.addons.findIndex((a) => a.name === addon.addon.name);
+      const addonIndex = existingGroup.addons.findIndex(a => a.name === addon.addon.name);
       if (addonIndex !== -1) {
         existingGroup.addons.splice(addonIndex, 1);
-        const newGroups = selectedAddOns.map((g) => {
+        const newGroups = selectedAddOns.map(g => {
           if (g.groupTitle === group.name) {
             return { ...g, addons: existingGroup.addons };
           }

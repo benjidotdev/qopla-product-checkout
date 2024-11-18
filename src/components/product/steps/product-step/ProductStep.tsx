@@ -1,32 +1,32 @@
 import React from "react";
 import { Product, Size, Flavour } from "../../../../types/products";
 import SizeSelector from "./size-selector/SizeSelector";
-import FlavorSelector from "./flavour-selector/FlavorSelector";
+import FlavourSelector from "./flavour-selector/FlavourSelector";
 
 interface ProductStepProps {
   product: Product;
   selectedSize: Size;
   setSelectedSize: (size: Size) => void;
-  selectedFlavor: Flavour;
-  setSelectedFlavor: (flavor: Flavour) => void;
+  selectedFlavour: Flavour;
+  setSelectedFlavour: (flavour: Flavour) => void;
 }
 
 const ProductStep = ({
   product,
   selectedSize,
   setSelectedSize,
-  selectedFlavor,
-  setSelectedFlavor,
+  selectedFlavour,
+  setSelectedFlavour,
 }: ProductStepProps) => {
   const handleSizeSelect = (size: Size) => {
     setSelectedSize(size);
   };
 
-  const handleFlavorSelect = (flavor: Flavour) => {
-    setSelectedFlavor(flavor);
+  const handleFlavourSelect = (flavour: Flavour) => {
+    setSelectedFlavour(flavour);
   };
 
-  const flavors = product.modifications.flavours;
+  const flavours = product.modifications.flavours;
   const sizes = product.modifications.sizes;
   const currentIndex = sizes.indexOf(selectedSize);
   const nextSize = sizes[currentIndex + 1];
@@ -34,7 +34,11 @@ const ProductStep = ({
   return (
     <div className="space-y-6 whitespace-nowrap">
       <SizeSelector sizes={sizes} selectedSize={selectedSize} nextSize={nextSize} handleSizeSelect={handleSizeSelect} />
-      <FlavorSelector flavors={flavors} selectedFlavor={selectedFlavor} handleFlavorSelect={handleFlavorSelect} />
+      <FlavourSelector
+        flavours={flavours}
+        selectedFlavour={selectedFlavour}
+        handleFlavourSelect={handleFlavourSelect}
+      />
     </div>
   );
 };

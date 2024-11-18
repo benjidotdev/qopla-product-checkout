@@ -3,7 +3,7 @@ import { ReactComponent as ErrorIcon } from "../../../assets/icons/error.svg";
 
 const ErrorIndicator = ({ error }: { error: string }) => {
   return (
-    <div className="bg-white w-full max-w-4xl flex flex-col items-center justify-center rounded-xl shadow-2xl p-6 gap-6">
+    <div className="bg-white w-full max-w-4xl h-full md:h-auto flex flex-col items-center justify-center md:rounded-xl shadow-2xl p-6 gap-6">
       <ErrorIcon className="mt-6 w-24 h-24 mb-4" />
       <div className="text-center flex flex-col gap-2">
         <div className="text-4xl font-bold">Something&apos;s gone wrong!</div>

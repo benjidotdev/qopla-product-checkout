@@ -26,9 +26,3 @@ body {
 .step-component::-webkit-scrollbar {
   display: none; /* for Chrome and Safari */
 }
-
-@media (max-width: 767px) {
-  .step-component {
-    width: 100% !important;
-  }
-}

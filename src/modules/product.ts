@@ -1,6 +1,7 @@
 import { Product, AdditionalData } from "../types/products";
 import errorHandler from "../utils/error-handler";
 import { mockProductData } from "../data/mock-product-data";
+import { DELAY, FAIL_RATE } from "../constants";
 
 interface GetProductResponse {
   product: Product;
@@ -9,9 +10,9 @@ interface GetProductResponse {
 
 type PartialGetProductResponse = Partial<GetProductResponse>;
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-const failRandomly = Math.random() < 0.1;
+const failRandomly = Math.random() < FAIL_RATE;
 
 const getProduct = async (id: string): Promise<PartialGetProductResponse> => {
   try {
@@ -19,7 +20,7 @@ const getProduct = async (id: string): Promise<PartialGetProductResponse> => {
       errorHandler(new Error("Product ID is required"));
     }
 
-    await delay(500);
+    await delay(DELAY);
 
     if (failRandomly) {
       errorHandler(new Error("Mock API request failed"));

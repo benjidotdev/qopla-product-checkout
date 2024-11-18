@@ -12,7 +12,7 @@ const ProgressBar = ({ currentStep, totalSteps }: ProgressBarProps) => {
   const progressWidth = currentStep === 1 ? "1%" : `${((currentStep - 1) / (stepsToDisplay.length - 1)) * 100}%`;
 
   return (
-    <div className="mb-8">
+    <div className="mb-2">
       <div className="flex justify-between mb-2">
         {stepsToDisplay.map(step => (
           <div key={step} className="text-sm font-medium">

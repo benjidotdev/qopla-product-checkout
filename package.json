@@ -1,5 +1,5 @@
 {
-  "name": "qopla-soda-checkout",
+  "name": "qopla-product-checkout",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

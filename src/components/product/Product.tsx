@@ -31,12 +31,12 @@ const Product = () => {
   const handleSubmit = () => {
     const order = {
       size: selectedSize.name,
-      flavor: selectedFlavour.name,
-      addOns: selectedAddOns.map((group) => {
+      flavour: selectedFlavour.name,
+      addOns: selectedAddOns.map(group => {
         return {
           groupName: group.groupTitle,
           addOns: group.addons.reduce((acc: { name: string; quantity: number }[], addon) => {
-            const existingAddon = acc.find((a) => a.name === addon.name);
+            const existingAddon = acc.find(a => a.name === addon.name);
             if (existingAddon) {
               existingAddon.quantity++;
             } else {
@@ -55,9 +55,9 @@ const Product = () => {
   if (error) return <ErrorIndicator error={error} />;
 
   return (
-    <div className="flex flex-col bg-white w-full md:max-w-3xl h-full md:max-h-[80%] rounded-xl shadow-2xl p-6 my-12 gap-6">
+    <div className="flex flex-col bg-white w-full md:max-w-3xl lg:w-[80%] lg:max-w-[1280px] h-full md:max-h-[80%] md:rounded-xl shadow-2xl p-6 my-12 gap-2 md:gap-6">
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
-      <div className="flex flex-1 flex-col md:flex-row gap-6 overflow-y-scroll">
+      <div className="flex flex-1 flex-col md:flex-row md:gap-6 overflow-y-scroll">
         <AnimatePresence mode="wait">
           {currentStep !== totalSteps && (
             <motion.div
@@ -87,7 +87,8 @@ const Product = () => {
                 overflowX: "hidden",
                 overflowY: "auto",
               }}
-              onAnimationComplete={() => setIsBackTransition(false)}>
+              onAnimationComplete={() => setIsBackTransition(false)}
+            >
               <StepComponent
                 currentStep={currentStep}
                 product={product}
@@ -102,22 +103,28 @@ const Product = () => {
             </motion.div>
           )}
         </AnimatePresence>
-        {currentStep !== totalSteps && <hr className="block md:hidden p-0" />}
         <motion.div
           key="overview"
           className="sticky top-0"
-          initial={{ width: currentStep === totalSteps ? "100%" : "33.3333%" }}
-          animate={{ width: currentStep === totalSteps ? "100%" : "33.3333%" }}
+          initial={{
+            width: window.innerWidth < 768 || currentStep === totalSteps ? "100%" : "33.3333%"
+        }}
+          animate={{
+            width: window.innerWidth < 768 || currentStep === totalSteps ? "100%" : "33.3333%",
+            height: currentStep === totalSteps ? "100%" : "auto"
+        }}
           transition={{
             width: { duration: 0.5, ease: "easeIn" },
             opacity: { duration: 0.3, ease: "easeIn" },
-          }}>
+          }}
+        >
           <Overview
             selectedSize={selectedSize}
             selectedFlavour={selectedFlavour}
             selectedAddOns={selectedAddOns}
             totalPrice={totalPrice}
             additionalData={additionalData ?? []}
+            finalStep={currentStep === totalSteps}
           />
         </motion.div>
       </div>

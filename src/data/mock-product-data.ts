@@ -24,7 +24,7 @@ export const mockProductData = {
       addons: [
         {
           addon: { name: "Whipped cream", price: 15 },
-          limit: 2,
+          limit: 1,
           sortOrder: 2,
         },
         {

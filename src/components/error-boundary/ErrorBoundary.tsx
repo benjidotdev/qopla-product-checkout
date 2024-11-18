@@ -19,7 +19,6 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
   }
 
   render() {
-    console.log('state', this.state);
     try {
       return this.props.children;
     } catch (error) {

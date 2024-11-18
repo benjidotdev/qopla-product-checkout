@@ -63,7 +63,7 @@ const ProgressButtons = ({
         onClick={handleNextStep}
         disabled={disableNext}
       >
-        {currentStep < totalSteps ? "Next" : "Submit"}
+        {currentStep < totalSteps ? "Next" : "Add to cart"}
       </motion.button>
     </div>
   );

@@ -1,46 +1,90 @@
-# Getting Started with Create React App
+# Qopla Product Checkout
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Repo:
+#### Live: 
 
-## Available Scripts
+### Getting started
 
-In the project directory, you can run:
 
-### `npm start`
+### Mock data
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Feel free to play around with the mock data in order to test edge cases. More information regarding solutions can be 
+found below. The mock data can be found at `src/data/mock-product-data/`.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Mock server
 
-### `npm test`
+I have created a psudo-mock server in order to demonstrate random failed API calls and to mock loading times. The values 
+can be changed in `src/constants`. Current values are:
+```
+DELAY = 500;
+FAIL_RATE = 0.2;
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Add-ons step
 
-### `npm run build`
+The Add-ons step will only be displayed if `additionalData` is received from the server. If no `additionalData`is 
+received the progress bar will not display the Add-ons step. Comment out `additionalData` in the mock data to test this.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Size selector
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The provided data only has two sizes. Feel free to add more to test the SizeSelector component. You will notice the 
+upsell suggestion below the selector updates with correct price increases also.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Flavour selector
 
-### `npm run eject`
+The flavour selector will become scrollable as more flavours are added if the height of the screen does not allow all 
+the options to be shown.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Addons
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+I have created two types of buttons. One that deals with addons with a limit of 1 (ToggleButton), and one that deals 
+with addons with a limit greater than 1 (QuantityButton). Update the individual limits in mock data to test this.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+There is also checks in place to ensure that if the individual limit is greater than the group limit, the group limit 
+will take precedence.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Sent Data
 
-## Learn More
+When clicking the "Add to basket" button, an object similar to the following is created (but currently not sent anywhere 
+obviously). You can see this object in the console .
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```json
+{
+  "size": "Normal",
+  "flavour": "Coca Cola",
+  "addOns": [
+    {
+      "groupName": "Extra toppings",
+      "addOns": [
+        {
+          "name": "Marshmallow",
+          "quantity": 1
+        },
+        {
+          "name": "Whipped cream",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "groupName": "To remove",
+      "addOns": [
+        {
+          "name": "Sugar",
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "totalPrice": 100
+}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Error handling
+
+### Possible improvements
+
+I haven't given much time to screen sizes under 768px. In a real world scenario this would certainly be something that 
+would require further investigation, but my initial thought is that most POS systems will use a tablet or larger screen.
+
+Further work could be done on the UI, especially if the data were to contain image urls for products.

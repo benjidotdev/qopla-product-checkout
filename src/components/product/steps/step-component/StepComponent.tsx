@@ -34,8 +34,8 @@ const StepComponent: React.FC<StepComponentProps> = ({
             product={product}
             selectedSize={selectedSize}
             setSelectedSize={setSelectedSize}
-            selectedFlavor={selectedFlavour}
-            setSelectedFlavor={setSelectedFlavour}
+            selectedFlavour={selectedFlavour}
+            setSelectedFlavour={setSelectedFlavour}
           />
         )
       );

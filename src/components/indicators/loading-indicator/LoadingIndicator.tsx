@@ -2,7 +2,7 @@ import React from "react";
 
 const LoadingIndicator = () => {
   return (
-    <div className="bg-white w-full max-w-4xl h-64 flex items-center justify-center rounded-xl shadow-2xl p-6">
+    <div className="bg-white w-full max-w-4xl h-full md:h-64 flex items-center justify-center md:rounded-xl shadow-2xl p-6">
       <div role="status">
         <svg
           aria-hidden="true"
