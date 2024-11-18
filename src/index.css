@@ -15,6 +15,18 @@ body {
   background: #084625;
 }
 
+.step-component {
+  position: relative;
+  overflow-y: auto;
+  background-color: #fff;
+  scrollbar-width: none; /* for Firefox */
+  -ms-overflow-style: none; /* for IE and Edge */
+}
+
+.step-component::-webkit-scrollbar {
+  display: none; /* for Chrome and Safari */
+}
+
 @media (max-width: 767px) {
   .step-component {
     width: 100% !important;

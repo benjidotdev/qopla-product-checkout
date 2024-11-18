@@ -71,7 +71,8 @@ const Product = () => {
                 opacity: { duration: 0.3, ease: "easeIn" },
               }}
               style={{
-                overflow: window.innerWidth < 768 ? "auto" : "hidden",
+                overflowX: "hidden",
+                overflowY: "auto",
               }}
               onAnimationComplete={() => setIsBackTransition(false)}>
               <StepComponent

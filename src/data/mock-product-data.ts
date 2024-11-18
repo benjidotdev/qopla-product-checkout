@@ -24,7 +24,36 @@ export const mockProductData = {
       addons: [
         {
           addon: { name: "Whipped cream", price: 15 },
-          limit: 2,
+          limit: 1,
+          sortOrder: 2,
+        },
+        {
+          addon: { name: "Vanilla icecream", price: 5 },
+          limit: 1,
+          sortOrder: 0,
+        },
+        {
+          addon: { name: "Marshmallow", price: 10 },
+          limit: 1,
+          sortOrder: 1,
+        },
+        {
+          addon: { name: "Whipped cream", price: 15 },
+          limit: 1,
+          sortOrder: 2,
+        },
+        {
+          addon: { name: "Vanilla icecream", price: 5 },
+          limit: 1,
+          sortOrder: 0,
+        },
+        {
+          addon: { name: "Marshmallow", price: 10 },
+          limit: 1,
+          sortOrder: 1,
+        },{
+          addon: { name: "Whipped cream", price: 15 },
+          limit: 1,
           sortOrder: 2,
         },
         {
