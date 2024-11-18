@@ -1,4 +1,5 @@
 import { Product, AdditionalData } from "../types/products";
+import errorHandler from "../utils/error-handler";
 import { mockProductData } from "../data/mock-product-data";
 
 interface GetProductResponse {
@@ -8,21 +9,31 @@ interface GetProductResponse {
 
 type PartialGetProductResponse = Partial<GetProductResponse>;
 
-const getProduct = async (id: string): Promise<PartialGetProductResponse> => {
-  if (!id) {
-    throw new Error("Product ID is required");
-  }
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const failRandomly = Math.random() < 0.2;
-      if (failRandomly) {
-        reject(new Error("Mock API request failed"));
-      } else {
-        resolve(mockProductData);
-      }
-    }, 500);
-  });
+const failRandomly = Math.random() < 0.1;
+
+const getProduct = async (id: string): Promise<PartialGetProductResponse> => {
+  try {
+    if (!id) {
+      errorHandler(new Error("Product ID is required"));
+    }
+
+    await delay(500);
+
+    if (failRandomly) {
+      errorHandler(new Error("Mock API request failed"));
+    }
+
+    return mockProductData;
+  } catch (error) {
+    if (error instanceof Error) {
+      errorHandler(error);
+    } else {
+      errorHandler(new Error("Unknown error"));
+    }
+    throw error;
+  }
 };
 
 export { getProduct };
