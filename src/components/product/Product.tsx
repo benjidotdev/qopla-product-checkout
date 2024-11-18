@@ -32,17 +32,20 @@ const Product = () => {
     const order = {
       size: selectedSize.name,
       flavor: selectedFlavour.name,
-      addOns: selectedAddOns.reduce((acc: { name: string; quantity: number }[], group) => {
-        group.addons.forEach((addon) => {
-          const existingAddon = acc.find((a) => a.name === addon.name);
-          if (existingAddon) {
-            existingAddon.quantity++;
-          } else {
-            acc.push({ name: addon.name, quantity: 1 });
-          }
-        });
-        return acc;
-      }, []),
+      addOns: selectedAddOns.map((group) => {
+        return {
+          groupName: group.groupTitle,
+          addOns: group.addons.reduce((acc: { name: string; quantity: number }[], addon) => {
+            const existingAddon = acc.find((a) => a.name === addon.name);
+            if (existingAddon) {
+              existingAddon.quantity++;
+            } else {
+              acc.push({ name: addon.name, quantity: 1 });
+            }
+            return acc;
+          }, []),
+        };
+      }),
       totalPrice,
     };
     console.log(order);

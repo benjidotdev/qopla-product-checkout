@@ -1,5 +1,5 @@
 import React from "react";
-import { AddOnDetails, Flavour, SelectedAddOnGroup, Size, AdditionalData } from "../../../types/products";
+import { Flavour, SelectedAddOnGroup, Size, AdditionalData } from "../../../types/products";
 import { CURRENCY_CODE } from "../../../constants";
 
 interface OverviewProps {
