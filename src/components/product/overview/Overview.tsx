@@ -12,7 +12,14 @@ interface OverviewProps {
   finalStep: boolean;
 }
 
-const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice, additionalData, finalStep }: OverviewProps) => {
+const Overview = ({
+  selectedSize,
+  selectedFlavour,
+  selectedAddOns,
+  totalPrice,
+  additionalData,
+  finalStep,
+}: OverviewProps) => {
   const getFormattedAddonPrefix = (group: SelectedAddOnGroup) => {
     if (group.groupTitle === "To remove") {
       return `-`;
@@ -64,21 +71,23 @@ const Overview = ({ selectedSize, selectedFlavour, selectedAddOns, totalPrice, a
   };
 
   return (
-    <div className="flex flex-col md:h-full w-full px-6 border-l border-gray-200 mt-2 md:mt-0">
-      <div className={clsx(!finalStep ? "hidden md:flex" : "flex", "flex-col mb-2")}>
-        <span className="text-xs md:text-sm font-light">Size:</span>
-        <span className="text-sm md:text-lg font-bold">{selectedSize.name}</span>
+    <div className="flex flex-col h-full w-full px-6 border-l border-gray-200 mt-2 md:mt-0">
+      <div className="flex flex-1 flex-col">
+        <div className={clsx(!finalStep ? "hidden md:flex" : "flex", "flex-col mb-2")}>
+          <span className="text-xs md:text-sm font-light">Size:</span>
+          <span className="text-sm md:text-lg font-bold">{selectedSize.name}</span>
+        </div>
+        <div className={clsx(!finalStep ? "hidden md:flex" : "flex", "flex-col mb-2")}>
+          <span className="text-xs md:text-sm font-light">Flavour:</span>
+          <span className="text-sm md:text-lg font-bold">{selectedFlavour.name}</span>
+        </div>
+        <div className={clsx(!finalStep ? "hidden md:flex" : "flex md:flex-1")}>
+          <ul>{sortedSelectedAddOns.map(renderAddOns)}</ul>
+        </div>
       </div>
-      <div className={clsx(!finalStep ? "hidden md:flex" : "flex", "flex-col mb-2")}>
-        <span className="text-xs md:text-sm font-light">Flavour:</span>
-        <span className="text-sm md:text-lg font-bold">{selectedFlavour.name}</span>
-      </div>
-      <div className={clsx(!finalStep ? "hidden md:flex" : "flex md:flex-1 mb-6")}>
-        <ul>{sortedSelectedAddOns.map(renderAddOns)}</ul>
-      </div>
-      <div className="flex flex-col mb-2">
-        <span className="text-xs md:text-sm font-light">Total Price:</span>
-        <span className="text-sm md:text-lg font-bold">
+      <div className="flex md:flex-col items-center md:items-start justify-between md:justify-end mb-2 md:mb-0">
+        <span className="text-sm font-light">Total Price:</span>
+        <span className="text-lg font-bold">
           {totalPrice.toFixed(2)} {CURRENCY_CODE}
         </span>
       </div>

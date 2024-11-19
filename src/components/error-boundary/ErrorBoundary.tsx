@@ -1,5 +1,4 @@
 import React from "react";
-import errorHandler from "../../utils/error-handler";
 import ErrorIndicator from "../indicators/error-indicator/ErrorIndicator";
 
 interface ErrorBoundaryProps {
@@ -14,24 +13,20 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
   }
 
   componentDidCatch(error: Error) {
-    this.setState({ error: error.message });
-    errorHandler(error);
+    // This is where I would send the error to a logging service
+    this.setState({ hasError: true, error: error.message });
   }
 
   render() {
-    try {
-      return this.props.children;
-    } catch (error) {
-      if (error instanceof Error) {
-        this.setState({ hasError: true, error: error.message });
-      }
-    }
-
     if (this.state.hasError) {
-      return <ErrorIndicator error={this.state.error} />;
+      return (
+        <div className="h-screen bg-bg-image bg-cover bg-fixed bg-center bg-no-repeat flex items-center justify-center">
+          <ErrorIndicator error={this.state.error} />
+        </div>
+      );
     }
 
-    return null;
+    return this.props.children;
   }
 }
 

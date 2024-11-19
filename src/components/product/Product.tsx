@@ -57,12 +57,12 @@ const Product = () => {
   return (
     <div className="flex flex-col bg-white w-full md:max-w-3xl lg:w-[80%] lg:max-w-[1280px] h-full md:max-h-[80%] md:rounded-xl shadow-2xl p-6 my-12 gap-2 md:gap-6">
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
-      <div className="flex flex-1 flex-col md:flex-row md:gap-6 overflow-y-scroll">
+      <div className="flex flex-1 flex-col md:flex-row md:gap-6 overflow-y-scroll hide-scrollbars">
         <AnimatePresence mode="wait">
           {currentStep !== totalSteps && (
             <motion.div
               key="stepComponent"
-              className="step-component"
+              className="hide-scrollbars"
               initial={{
                 height: window.innerWidth < 768 ? (isBackTransition ? 0 : "100%") : "auto",
                 width: window.innerWidth < 768 ? "100%" : isBackTransition ? 0 : "66.6667%",
@@ -107,12 +107,12 @@ const Product = () => {
           key="overview"
           className="sticky top-0"
           initial={{
-            width: window.innerWidth < 768 || currentStep === totalSteps ? "100%" : "33.3333%"
-        }}
+            width: window.innerWidth < 768 || currentStep === totalSteps ? "100%" : "33.3333%",
+          }}
           animate={{
             width: window.innerWidth < 768 || currentStep === totalSteps ? "100%" : "33.3333%",
-            height: currentStep === totalSteps ? "100%" : "auto"
-        }}
+            height: currentStep === totalSteps ? "100%" : "auto",
+          }}
           transition={{
             width: { duration: 0.5, ease: "easeIn" },
             opacity: { duration: 0.3, ease: "easeIn" },

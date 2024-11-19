@@ -15,14 +15,13 @@ body {
   background: #084625;
 }
 
-.step-component {
+.hide-scrollbars {
   position: relative;
   overflow-y: auto;
-  background-color: #fff;
   scrollbar-width: none; /* for Firefox */
   -ms-overflow-style: none; /* for IE and Edge */
 }
 
-.step-component::-webkit-scrollbar {
+.hide-scrollbars::-webkit-scrollbar {
   display: none; /* for Chrome and Safari */
 }
