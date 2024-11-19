@@ -55,7 +55,7 @@ const Product = () => {
   if (error) return <ErrorIndicator error={error} />;
 
   return (
-    <div className="flex flex-col bg-white w-full md:max-w-3xl lg:w-[80%] lg:max-w-[1280px] h-full md:max-h-[80%] md:rounded-xl shadow-2xl p-6 my-12 gap-2 md:gap-6">
+    <div className="flex flex-col bg-white w-full md:max-w-3xl lg:w-[80%] lg:max-w-[1280px] h-screen md:max-h-[80%] md:rounded-xl shadow-2xl p-6 my-12 gap-2 md:gap-6">
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
       <div className="flex flex-1 flex-col md:flex-row md:gap-6 overflow-y-scroll hide-scrollbars">
         <AnimatePresence mode="wait">
