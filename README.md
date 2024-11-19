@@ -1,11 +1,36 @@
 # Qopla Product Checkout
 
-#### Repo:
-#### Live:
+#### Repo: https://github.com/benjidotdev/qopla-product-checkout
+#### Live: https://qopla-product-checkout.netlify.app/
 
-### Getting started
+## Getting started
 
+1. Clone the repository
 
+   ```bash
+   #SSH
+   git clone git@github.com:benjidotdev/qopla-product-checkout.git
+   ```
+
+   or
+
+   ```bash
+   #HTTPS
+   git clone https://github.com/benjidotdev/qopla-product-checkout.git
+   ```
+2. Install the dependencies
+
+   ```bash
+   npm install
+   ```
+
+3. Start the frontend
+
+   ```bash
+   npm start
+   ```
+
+9. Navigate to  http://localhost:3000
 
 ### Mock data
 
